@@ -2,12 +2,11 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import meImg from "./assets/me.jpeg";
 
 /* ════════════════════════════════════════════════════════════════
-   AKSHATH TOGARI — PORTFOLIO (v6 · premium · device showcase)
-   - Warm near-black base · champagne-gold accent
-   - Display: Fraunces · Body: Inter · Meta: Space Mono
-   - Projects: animation clip background + laptop & phone device
-     frames (alternating sides), tilt / stagger / float / play-on-scroll
-   - Photo + bio editorial section · fully mobile responsive
+   AKSHATH TOGARI — PORTFOLIO (v7)
+   Order: hero → details (photo + bio + contact) → skills → projects
+          → stats/accuracy → experience → footer
+   Warm near-black base · champagne-gold accent
+   Display: Fraunces · Body: Inter · Meta: Space Mono
    ════════════════════════════════════════════════════════════════ */
 
 const THEMES = {
@@ -227,62 +226,69 @@ function ThemeToggle({ theme, onToggle }) {
   return (
     <button onClick={onToggle} aria-label="Toggle colour theme" style={{ width: 46, height: 46, borderRadius: "50%", border: "1px solid var(--line)", background: "var(--surface)", backdropFilter: "blur(14px)", color: "var(--accent)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, transition: "transform .3s, border-color .3s" }}
       onMouseEnter={(e) => (e.currentTarget.style.borderColor = "var(--accent)")} onMouseLeave={(e) => (e.currentTarget.style.borderColor = "var(--line)")}>
-      {theme === "dark" ? "\u263E" : "\u2600"}
+      {theme === "dark" ? "☾" : "☀"}
     </button>
   );
 }
 
 /* ════════════════════ DATA ════════════════════ */
-const BIO = "I'm a full-stack developer and AI engineer based in Hyderabad, building production-grade web platforms where thoughtful engineering meets applied machine learning. My work spans multi-role SaaS systems, NLP pipelines across nine Indian languages, and LLM-powered tools \u2014 each shipped end to end, from schema to interface. I care about software that's fast, reliable, and quietly intelligent.";
+const BIO = "I'm a full-stack developer based in Hyderabad. I build web apps end to end, from the database and backend to the interface, mostly with React, Next.js, and Node. I've also worked on a few projects using NLP and language models, including a multilingual legal assistant and a chatbot for ordering food.";
+
+const CONTACT = {
+  email: "akshth.togari05@gmail.com",
+  phone: "+91 7569534271",
+  linkedin: "https://linkedin.com/in/akshath-togari",
+  github: "https://github.com/Akshath2901",
+};
 
 /* Each project: bgVideo = ambient animation clip behind the card.
    desktopVideo / mobileVideo = your real screen recordings (swap these
    placeholders for /recordings/<name>-desktop.mp4 etc. when ready). */
 const PROJECTS = [
-  { name: "Aureve-Structa", kind: "Real estate \u00b7 construction",
+  { name: "Aureve-Structa", kind: "Real estate · construction",
     bgVideo: "https://assets.mixkit.co/videos/4010/4010-720.mp4",
     poster: "https://assets.mixkit.co/videos/4010/4010-thumb-720-0.jpg",
     desktopVideo: "/recordings/aureve-desktop.mp4",
     mobileVideo: "/recordings/aureve-mobile.mp4",
-    description: "A pnpm monorepo with two cross-navigable Next.js apps sharing one unified PostgreSQL schema \u2014 built so the property and construction sides could be developed in parallel.",
+    description: "A real estate and construction platform built as one monorepo with two Next.js apps that share a single PostgreSQL database. It has separate logins and dashboards for buyers, sellers, admins, and staff.",
     tech: ["Next.js", "TypeScript", "PostgreSQL", "Monorepo", "RBAC"],
-    highlights: ["RBAC across 4 roles", "100% workflow coverage", "Modular monorepo"],
+    highlights: ["Four user roles", "Two linked Next.js apps", "Shared database"],
     link: "https://github.com/Akshath2901" },
   { name: "BlueBliss", kind: "Cloud kitchen platform",
     bgVideo: "https://assets.mixkit.co/videos/13875/13875-720.mp4",
     poster: "https://assets.mixkit.co/videos/13875/13875-thumb-720-0.jpg",
     desktopVideo: "/recordings/bluebliss-desktop.mp4",
     mobileVideo: "/recordings/bluebliss-mobile.mp4",
-    description: "A three-role MERN platform spanning customer ordering, staff inventory, and super-admin analytics \u2014 with an LLM chatbot handling food recommendations and order support at scale.",
+    description: "A cloud kitchen platform built with the MERN stack. It has three types of users: customers who place orders, staff who manage inventory, and an admin who sees the analytics. It also has a chatbot that helps customers with recommendations and order questions.",
     tech: ["React.js", "Node.js", "Express.js", "MongoDB", "LLM"],
-    highlights: ["LLM chatbot", "10+ CI/CD releases", "3-role separation"],
+    highlights: ["Customer, staff & admin views", "Chatbot for orders", "MERN stack"],
     link: "https://github.com/Akshath2901" },
   { name: "BlueBliss Inventory", kind: "Cloud-kitchen inventory & HR",
     bgVideo: "https://assets.mixkit.co/videos/13875/13875-720.mp4",
     poster: "https://assets.mixkit.co/videos/13875/13875-thumb-720-0.jpg",
     desktopVideo: "https://assets.mixkit.co/videos/13875/13875-720.mp4",
     mobileVideo: "https://assets.mixkit.co/videos/13875/13875-720.mp4",
-    description: "A staff-facing inventory and operations platform for a cloud kitchen \u2014 real-time stock tracking, purchase orders, dish cost analysis, waste logging, and full HR payroll with attendance and shift scheduling, all backed by Firebase Firestore.",
+    description: "An inventory and operations tool for a cloud kitchen's staff. It handles stock tracking, purchase orders, dish costing, and waste logging, along with HR features like payroll, attendance, and shift scheduling. The data is stored in Firebase Firestore.",
     tech: ["React", "Vite", "Firebase", "Firestore"],
-    highlights: ["Real-time stock sync", "Dish costing engine", "Payroll + attendance"],
+    highlights: ["Live stock tracking", "Dish cost analysis", "Payroll & attendance"],
     link: "https://github.com/Akshath2901" },
   { name: "Nyaay-Sahaayak", kind: "Virtual legal assistant",
     bgVideo: "https://assets.mixkit.co/videos/47687/47687-720.mp4",
     poster: "https://assets.mixkit.co/videos/47687/47687-thumb-720-0.jpg",
     desktopVideo: "https://assets.mixkit.co/videos/47687/47687-720.mp4",
     mobileVideo: "https://assets.mixkit.co/videos/47687/47687-720.mp4",
-    description: "NLP-powered legal guidance across 9+ Indian languages, cutting query resolution from days to under five seconds through real-time multilingual routing.",
+    description: "A virtual legal assistant that answers common legal questions in several Indian languages. It uses NLP to understand the question and reply in the user's own language, with document lookup for people who aren't comfortable in English.",
     tech: ["MongoDB", "Express.js", "React.js", "Node.js", "NLP"],
-    highlights: ["9+ languages", "<5s resolution", "12+ REST APIs"],
+    highlights: ["Several Indian languages", "NLP-based answers", "REST API backend"],
     link: "https://github.com/Akshath2901" },
-  { name: "School Website", kind: "School \u00b7 web platform",
+  { name: "School Website", kind: "School · web platform",
     bgVideo: "https://assets.mixkit.co/videos/preview/mixkit-set-of-plateaus-seen-from-the-heights-in-a-sunset-26070-large.mp4",
     poster: "https://images.mixkit.co/videos/preview/mixkit-set-of-plateaus-seen-from-the-heights-in-a-sunset-26070-0.jpg",
     desktopVideo: "https://assets.mixkit.co/videos/preview/mixkit-set-of-plateaus-seen-from-the-heights-in-a-sunset-26070-large.mp4",
     mobileVideo: "https://assets.mixkit.co/videos/preview/mixkit-set-of-plateaus-seen-from-the-heights-in-a-sunset-26070-large.mp4",
-    description: "A modern, responsive website for a school \u2014 covering admissions, announcements, gallery, faculty, and contact, with a clean content structure that's easy for staff to update.",
+    description: "A responsive website for a school, covering admissions, announcements, a photo gallery, faculty details, and contact info. I set it up so staff can update the content without much trouble.",
     tech: ["React", "Node.js", "Express", "MongoDB"],
-    highlights: ["Responsive design", "Admissions & info", "Easy content updates"],
+    highlights: ["Responsive design", "Admissions & info", "Easy to update"],
     link: "https://github.com/Akshath2901" },
 ];
 
@@ -290,10 +296,12 @@ const SKILLS = {
   Languages: ["Python", "JavaScript", "TypeScript"],
   "Full stack": ["Next.js", "React", "Node.js", "Express", "Tailwind", "REST", "Vercel"],
   Data: ["MongoDB", "PostgreSQL", "Firebase", "SQL"],
-  "AI \u00b7 GenAI": ["LLMs", "RAG", "LangChain", "OpenAI API", "PyTorch", "Hugging Face", "BERT"],
+  "AI · GenAI": ["LLMs", "RAG", "LangChain", "OpenAI API", "PyTorch", "Hugging Face", "BERT"],
 };
-const STATS = [{ n: 96, suffix: "%", label: "NLP accuracy" }, { n: 9, suffix: "+", label: "languages" }, { n: 20, suffix: "+", label: "REST APIs" }, { n: 5, suffix: "", label: "platforms shipped" }];
-const NAV = [["work", "work"], ["skills", "skills"], ["about", "about"], ["contact", "contact"]];
+const STATS = [{ n: 96, suffix: "%", label: "NLP accuracy" }, { n: 9, suffix: "+", label: "languages" }, { n: 20, suffix: "+", label: "REST APIs built" }, { n: 5, suffix: "", label: "projects shipped" }];
+
+/* nav follows the page order: details → skills → projects → contact */
+const NAV = [["about", "about"], ["skills", "skills"], ["work", "work"], ["contact", "contact"]];
 
 /* ════════════════════ MAIN ════════════════════ */
 export default function Portfolio() {
@@ -302,7 +310,7 @@ export default function Portfolio() {
   const [theme, setTheme] = useState("dark");
   const [heroIn, setHeroIn] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [active, setActive] = useState("work");
+  const [active, setActive] = useState("about");
   const [statsRef, statsIn] = useInView(0.4);
 
   useEffect(() => { const t = setTimeout(() => setHeroIn(true), 200); return () => clearTimeout(t); }, []);
@@ -325,6 +333,13 @@ export default function Portfolio() {
       <span style={{ display: "block", fontStyle: italic ? "italic" : "normal", fontWeight: italic ? 300 : 400, color: italic ? "var(--accent)" : "var(--text)", transform: heroIn ? "translateY(0)" : "translateY(105%)", transition: `transform 1.2s cubic-bezier(.2,.75,.2,1) ${delay}s` }}>{txt}</span>
     </span>
   );
+
+  const contactItems = [
+    ["email", CONTACT.email, `mailto:${CONTACT.email}`],
+    ["phone", CONTACT.phone, `tel:${CONTACT.phone.replace(/\s/g, "")}`],
+    ["linkedin", "akshath-togari", CONTACT.linkedin],
+    ["github", "Akshath2901", CONTACT.github],
+  ];
 
   return (
     <div style={{ ...vars, background: "var(--bg)", color: "var(--text)", minHeight: "100vh", fontFamily: "'Inter', sans-serif", transition: "background .6s ease, color .6s ease", position: "relative", overflowX: "hidden" }}>
@@ -374,8 +389,7 @@ export default function Portfolio() {
       {/* HERO */}
       <header id="top" style={{ position: "relative", zIndex: 2, padding: "clamp(4rem, 12vw, 9rem) clamp(1.25rem, 5vw, 4rem) clamp(3rem, 6vw, 5rem)", maxWidth: 1180, margin: "0 auto" }}>
         <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem", fontFamily: "'Space Mono', monospace", fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--muted)", marginBottom: "clamp(3rem, 8vw, 5rem)", opacity: heroIn ? 1 : 0, transition: "opacity 1.2s .2s" }}>
-          <span>Portfolio \u2014 2026</span><span>Hyderabad, IN</span>
-          <span style={{ color: "var(--accent)", display: "flex", alignItems: "center", gap: 9 }}><span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--accent)", display: "inline-block" }} />available for work</span>
+          <span>Portfolio — 2026</span><span>Hyderabad, IN</span>
         </div>
 
         <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(3.6rem, 15vw, 11rem)", fontWeight: 400, lineHeight: 0.92, letterSpacing: "-0.035em", margin: "0 0 2rem 0" }}>
@@ -384,22 +398,13 @@ export default function Portfolio() {
         </h1>
         <div style={{ display: "flex", alignItems: "center", gap: 18, opacity: heroIn ? 1 : 0, transition: "opacity 1.2s .5s" }}>
           <span style={{ width: "clamp(40px, 8vw, 90px)", height: 1, background: "var(--accent)", opacity: 0.6 }} />
-          <p style={{ fontFamily: "'Space Mono', monospace", fontSize: "clamp(12px, 1.8vw, 15px)", letterSpacing: "0.1em", color: "var(--muted)", margin: 0 }}>full-stack developer &nbsp;\u00b7&nbsp; ai engineer</p>
+          <p style={{ fontFamily: "'Space Mono', monospace", fontSize: "clamp(12px, 1.8vw, 15px)", letterSpacing: "0.1em", color: "var(--muted)", margin: 0 }}>full-stack developer &nbsp;·&nbsp; ai engineer</p>
         </div>
       </header>
 
-      {/* WORK */}
-      <section id="work" style={{ position: "relative", zIndex: 2, maxWidth: 1180, margin: "clamp(2rem, 6vw, 4rem) auto 0", padding: "0 clamp(1.25rem, 5vw, 4rem)" }}>
-        <Reveal style={{ marginBottom: "2.5rem" }}>
-          <Eyebrow>Selected work</Eyebrow>
-          <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(2rem, 5.5vw, 3.5rem)", fontWeight: 400, letterSpacing: "-0.03em", margin: "1.2rem 0 0 0" }}>Things I&apos;ve built.</h2>
-        </Reveal>
-        {PROJECTS.map((p, i) => (<ProjectShowcase key={p.name} project={p} index={i} reduced={reduced} />))}
-      </section>
-
-      {/* ABOUT — photo + bio */}
-      <section id="about" style={{ position: "relative", zIndex: 2, maxWidth: 1180, margin: "clamp(4rem, 10vw, 8rem) auto 0", padding: "0 clamp(1.25rem, 5vw, 4rem)" }}>
-        <Reveal style={{ marginBottom: "3rem" }}><Eyebrow>The person behind the work</Eyebrow></Reveal>
+      {/* ABOUT — photo + bio + contact details (moved to top) */}
+      <section id="about" style={{ position: "relative", zIndex: 2, maxWidth: 1180, margin: "clamp(2rem, 6vw, 4rem) auto 0", padding: "0 clamp(1.25rem, 5vw, 4rem)" }}>
+        <Reveal style={{ marginBottom: "3rem" }}><Eyebrow>About</Eyebrow></Reveal>
         <div className="ak-bio-grid" style={{ display: "grid", gridTemplateColumns: "0.85fr 1.15fr", gap: "clamp(2rem, 5vw, 4.5rem)", alignItems: "center" }}>
           <Reveal>
             <div style={{ position: "relative" }}>
@@ -411,8 +416,15 @@ export default function Portfolio() {
           </Reveal>
           <Reveal delay={0.12}>
             <p style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(1.4rem, 3vw, 2.1rem)", fontWeight: 300, lineHeight: 1.4, letterSpacing: "-0.01em", margin: "0 0 2rem 0", color: "var(--text)" }}>{BIO}</p>
-            <div ref={statsRef} style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "1.5rem 2.5rem", borderTop: "1px solid var(--line)", paddingTop: "2rem" }}>
-              {STATS.map((s, i) => (<Stat key={i} {...s} inView={statsIn} reduced={reduced} />))}
+
+            {/* contact details */}
+            <div style={{ borderTop: "1px solid var(--line)", paddingTop: "1.75rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(170px, 1fr))", gap: "1.25rem" }}>
+              {contactItems.map(([label, value, href]) => (
+                <a key={label} href={href} target={href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer" style={{ textDecoration: "none", display: "block" }}>
+                  <div style={{ fontFamily: "'Space Mono', monospace", fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--accent)", marginBottom: 7 }}>{label}</div>
+                  <div style={{ fontFamily: "'Space Mono', monospace", fontSize: 13, color: "var(--text)", wordBreak: "break-word" }}>{value}</div>
+                </a>
+              ))}
             </div>
           </Reveal>
         </div>
@@ -421,8 +433,8 @@ export default function Portfolio() {
       {/* SKILLS */}
       <section id="skills" style={{ position: "relative", zIndex: 2, maxWidth: 1180, margin: "clamp(4rem, 10vw, 8rem) auto 0", padding: "0 clamp(1.25rem, 5vw, 4rem)" }}>
         <Reveal style={{ marginBottom: "2.5rem" }}>
-          <Eyebrow>Toolbox</Eyebrow>
-          <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(2rem, 5.5vw, 3.5rem)", fontWeight: 400, letterSpacing: "-0.03em", margin: "1.2rem 0 0 0" }}>How I work.</h2>
+          <Eyebrow>Skills</Eyebrow>
+          <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(2rem, 5.5vw, 3.5rem)", fontWeight: 400, letterSpacing: "-0.03em", margin: "1.2rem 0 0 0" }}>What I use.</h2>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))", gap: "1px", background: "var(--line)", border: "1px solid var(--line)", borderRadius: 4, overflow: "hidden" }}>
           {Object.entries(SKILLS).map(([cat, items], i) => (
@@ -434,18 +446,38 @@ export default function Portfolio() {
         </div>
       </section>
 
+      {/* WORK — projects */}
+      <section id="work" style={{ position: "relative", zIndex: 2, maxWidth: 1180, margin: "clamp(4rem, 10vw, 8rem) auto 0", padding: "0 clamp(1.25rem, 5vw, 4rem)" }}>
+        <Reveal style={{ marginBottom: "2.5rem" }}>
+          <Eyebrow>Projects</Eyebrow>
+          <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(2rem, 5.5vw, 3.5rem)", fontWeight: 400, letterSpacing: "-0.03em", margin: "1.2rem 0 0 0" }}>What I&apos;ve built.</h2>
+        </Reveal>
+        {PROJECTS.map((p, i) => (<ProjectShowcase key={p.name} project={p} index={i} reduced={reduced} />))}
+      </section>
+
+      {/* STATS — accuracy info */}
+      <section style={{ position: "relative", zIndex: 2, maxWidth: 1180, margin: "clamp(4rem, 10vw, 8rem) auto 0", padding: "0 clamp(1.25rem, 5vw, 4rem)" }}>
+        <Reveal style={{ marginBottom: "2.5rem" }}>
+          <Eyebrow>By the numbers</Eyebrow>
+          <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(2rem, 5.5vw, 3.5rem)", fontWeight: 400, letterSpacing: "-0.03em", margin: "1.2rem 0 0 0" }}>A few results.</h2>
+        </Reveal>
+        <div ref={statsRef} style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: "1.5rem 2.5rem", borderTop: "1px solid var(--line)", paddingTop: "2rem" }}>
+          {STATS.map((s, i) => (<Stat key={i} {...s} inView={statsIn} reduced={reduced} />))}
+        </div>
+      </section>
+
       {/* EXPERIENCE */}
       <section style={{ position: "relative", zIndex: 2, maxWidth: 1180, margin: "clamp(4rem, 10vw, 8rem) auto 0", padding: "0 clamp(1.25rem, 5vw, 4rem)" }}>
         <Reveal style={{ marginBottom: "2.5rem" }}><Eyebrow>Experience</Eyebrow></Reveal>
         <Reveal className="ak-about-grid" style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr) minmax(0,1.7fr)", gap: "clamp(1.5rem,4vw,3rem)", borderTop: "1px solid var(--line)", paddingTop: "2.25rem" }}>
-          <div><div style={{ fontFamily: "'Space Mono', monospace", fontSize: 12, color: "var(--accent)", marginBottom: 6, letterSpacing: "0.06em" }}>Sep \u2014 Nov 2025</div><div style={{ fontFamily: "'Space Mono', monospace", fontSize: 11, color: "var(--faint)" }}>Hyderabad, India</div></div>
+          <div><div style={{ fontFamily: "'Space Mono', monospace", fontSize: 12, color: "var(--accent)", marginBottom: 6, letterSpacing: "0.06em" }}>Sep — Nov 2025</div><div style={{ fontFamily: "'Space Mono', monospace", fontSize: 11, color: "var(--faint)" }}>Hyderabad, India</div></div>
           <div>
             <h3 style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(1.4rem, 3.5vw, 2.1rem)", fontWeight: 400, letterSpacing: "-0.01em", margin: "0 0 0.5rem 0" }}>Software Development Intern</h3>
-            <p style={{ fontFamily: "'Space Mono', monospace", fontSize: 12.5, color: "var(--muted)", margin: "0 0 1.5rem 0" }}>Infosys Springboard \u2014 KnowMap, cross-domain knowledge mapping</p>
+            <p style={{ fontFamily: "'Space Mono', monospace", fontSize: 12.5, color: "var(--muted)", margin: "0 0 1.5rem 0" }}>Infosys Springboard — KnowMap (knowledge mapping)</p>
             <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-              {["Built a cross-domain knowledge mapping system across 5+ domains using NLP entity extraction.",
-                "Deployed 8+ RESTful APIs for knowledge-graph traversal, delivering every sprint goal in a 3-month agile cycle.",
-                "Led scrum ceremonies with 5+ engineers \u2014 sprint reviews and retrospectives to hold delivery velocity."].map((t, i) => (
+              {["Built a knowledge-mapping system that links information across several domains, using NLP to pull out the key entities.",
+                "Created 8+ REST APIs for moving through the knowledge graph, and finished the planned work in each sprint over a 3-month internship.",
+                "Took part in scrum meetings with the team — sprint reviews and retrospectives — to keep the work on track."].map((t, i) => (
                 <li key={i} style={{ display: "flex", gap: 14, padding: "1rem 0", borderBottom: "1px solid var(--line)", fontSize: 14.5, fontWeight: 300, lineHeight: 1.6 }}><span style={{ color: "var(--accent)", fontFamily: "'Space Mono', monospace", fontSize: 12 }}>0{i + 1}</span>{t}</li>
               ))}
             </ul>
@@ -453,20 +485,20 @@ export default function Portfolio() {
         </Reveal>
       </section>
 
-      {/* CONTACT */}
+      {/* CONTACT — footer */}
       <section id="contact" style={{ position: "relative", zIndex: 2, maxWidth: 1180, margin: "clamp(5rem, 12vw, 9rem) auto 0", padding: "clamp(3.5rem,8vw,6rem) clamp(1.25rem, 5vw, 4rem) clamp(2.5rem,5vw,4rem)", borderTop: "1px solid var(--line)" }}>
         <Reveal>
-          <Eyebrow>Get in touch</Eyebrow>
-          <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(2.6rem, 9vw, 6rem)", fontWeight: 400, letterSpacing: "-0.03em", lineHeight: 0.98, margin: "1.75rem 0 2.75rem 0" }}>Let&apos;s build<br /><span style={{ fontStyle: "italic", fontWeight: 300, color: "var(--accent)" }}>something lasting.</span></h2>
-          <a href="mailto:akshth.togari05@gmail.com" style={{ display: "inline-flex", alignItems: "center", gap: 14, fontFamily: "'Space Mono', monospace", fontSize: "clamp(13px, 2.2vw, 16px)", letterSpacing: "0.04em", color: "var(--accent-ink)", background: "var(--accent)", padding: "1.1rem 1.9rem", borderRadius: 3, textDecoration: "none", transition: "transform .3s" }}
-            onMouseEnter={(e) => (e.currentTarget.style.transform = "translateY(-2px)")} onMouseLeave={(e) => (e.currentTarget.style.transform = "translateY(0)")}>akshth.togari05@gmail.com <span>↗</span></a>
+          <Eyebrow>Contact</Eyebrow>
+          <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(2.4rem, 6vw, 4rem)", fontWeight: 400, letterSpacing: "-0.03em", lineHeight: 1.0, margin: "1.5rem 0 2.5rem 0" }}>Get in <span style={{ fontStyle: "italic", fontWeight: 300, color: "var(--accent)" }}>touch.</span></h2>
+          <a href={`mailto:${CONTACT.email}`} style={{ display: "inline-flex", alignItems: "center", gap: 14, fontFamily: "'Space Mono', monospace", fontSize: "clamp(13px, 2.2vw, 16px)", letterSpacing: "0.04em", color: "var(--accent-ink)", background: "var(--accent)", padding: "1.1rem 1.9rem", borderRadius: 3, textDecoration: "none", transition: "transform .3s" }}
+            onMouseEnter={(e) => (e.currentTarget.style.transform = "translateY(-2px)")} onMouseLeave={(e) => (e.currentTarget.style.transform = "translateY(0)")}>{CONTACT.email} <span>↗</span></a>
         </Reveal>
         <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "1.5rem", marginTop: "clamp(3.5rem, 8vw, 5.5rem)", paddingTop: "1.75rem", borderTop: "1px solid var(--line)", fontFamily: "'Space Mono', monospace", fontSize: 12, letterSpacing: "0.04em", color: "var(--muted)" }}>
-          <span>\u00a9 2026 Akshath Togari</span>
+          <span>© 2026 Akshath Togari</span>
           <div style={{ display: "flex", gap: "1.75rem" }}>
-            <a href="https://github.com/Akshath2901" target="_blank" rel="noopener noreferrer" style={{ color: "var(--muted)", textDecoration: "none" }}>github</a>
-            <a href="https://linkedin.com/in/akshath-togari" target="_blank" rel="noopener noreferrer" style={{ color: "var(--muted)", textDecoration: "none" }}>linkedin</a>
-            <span>+91 7569534271</span>
+            <a href={CONTACT.github} target="_blank" rel="noopener noreferrer" style={{ color: "var(--muted)", textDecoration: "none" }}>github</a>
+            <a href={CONTACT.linkedin} target="_blank" rel="noopener noreferrer" style={{ color: "var(--muted)", textDecoration: "none" }}>linkedin</a>
+            <span>{CONTACT.phone}</span>
           </div>
         </div>
       </section>
