@@ -223,10 +223,30 @@ function Stat({ n, suffix, label, inView, reduced }) {
 }
 
 function ThemeToggle({ theme, onToggle }) {
+  const isDark = theme === "dark";
+  const ease = "cubic-bezier(.5,1.7,.4,1)";
   return (
-    <button onClick={onToggle} aria-label="Toggle colour theme" style={{ width: 46, height: 46, borderRadius: "50%", border: "1px solid var(--line)", background: "var(--surface)", backdropFilter: "blur(14px)", color: "var(--accent)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, transition: "transform .3s, border-color .3s" }}
-      onMouseEnter={(e) => (e.currentTarget.style.borderColor = "var(--accent)")} onMouseLeave={(e) => (e.currentTarget.style.borderColor = "var(--line)")}>
-      {theme === "dark" ? "☾" : "☀"}
+    <button onClick={onToggle} aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+      style={{ width: 46, height: 46, borderRadius: "50%", border: "1px solid var(--line)", background: "var(--surface)", backdropFilter: "blur(14px)", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", transition: "transform .35s, border-color .3s", overflow: "hidden" }}
+      onMouseEnter={(e) => { e.currentTarget.style.borderColor = "var(--accent)"; e.currentTarget.style.transform = "scale(1.07)"; }}
+      onMouseLeave={(e) => { e.currentTarget.style.borderColor = "var(--line)"; e.currentTarget.style.transform = "scale(1)"; }}>
+      <svg width="21" height="21" viewBox="0 0 24 24" style={{ transform: isDark ? "rotate(-18deg)" : "rotate(0deg)", transition: `transform .55s ${ease}` }}>
+        <mask id="ak-moon-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24">
+          <rect x="0" y="0" width="24" height="24" fill="white" />
+          <circle cx="16" cy="8" r="6" fill="black" style={{ transform: isDark ? "translateX(0)" : "translateX(16px)", transition: `transform .55s ${ease}` }} />
+        </mask>
+        <circle cx="12" cy="12" r={isDark ? 6.5 : 5} fill="var(--accent)" mask="url(#ak-moon-mask)" style={{ transition: "r .45s ease" }} />
+        <g stroke="var(--accent)" strokeWidth="1.7" strokeLinecap="round" style={{ opacity: isDark ? 0 : 1, transform: isDark ? "scale(.45)" : "scale(1)", transformOrigin: "12px 12px", transition: `opacity .35s ease, transform .5s ${ease}` }}>
+          <line x1="12" y1="1.5" x2="12" y2="3.5" />
+          <line x1="12" y1="20.5" x2="12" y2="22.5" />
+          <line x1="1.5" y1="12" x2="3.5" y2="12" />
+          <line x1="20.5" y1="12" x2="22.5" y2="12" />
+          <line x1="4.6" y1="4.6" x2="6" y2="6" />
+          <line x1="18" y1="18" x2="19.4" y2="19.4" />
+          <line x1="4.6" y1="19.4" x2="6" y2="18" />
+          <line x1="18" y1="6" x2="19.4" y2="4.6" />
+        </g>
+      </svg>
     </button>
   );
 }
@@ -307,7 +327,7 @@ const NAV = [["about", "about"], ["skills", "skills"], ["work", "work"], ["conta
 export default function Portfolio() {
   useFonts();
   const reduced = useReducedMotion();
-  const [theme, setTheme] = useState("dark");
+  const [theme, setTheme] = useState("light");
   const [heroIn, setHeroIn] = useState(false);
   const [progress, setProgress] = useState(0);
   const [active, setActive] = useState("about");
