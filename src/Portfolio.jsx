@@ -134,7 +134,7 @@ function Laptop({ src, poster }) {
 /* Phone frame */
 function Phone({ src, poster }) {
   return (
-    <div style={{ width: "clamp(120px, 22vw, 168px)" }}>
+    <div className="ak-phone-frame" style={{ width: "clamp(120px, 22vw, 168px)" }}>
       <div style={{ background: "#1A1714", border: "1px solid rgba(201,168,106,0.32)", borderRadius: 26, padding: 7, boxShadow: "0 40px 70px -30px rgba(0,0,0,0.85)" }}>
         <div style={{ borderRadius: 20, overflow: "hidden", aspectRatio: "9 / 19.5", background: "#000", position: "relative" }}>
           <div style={{ position: "absolute", top: 8, left: "50%", transform: "translateX(-50%)", width: 42, height: 13, background: "#0A0806", borderRadius: 10, zIndex: 3 }} />
@@ -164,7 +164,7 @@ function ProjectShowcase({ project, index, reduced }) {
   };
 
   return (
-    <Reveal style={{ marginBottom: "clamp(2rem, 5vw, 3.5rem)" }} y={36}>
+    <Reveal style={{ marginBottom: "clamp(1.25rem, 5vw, 3.5rem)" }} y={36}>
       <div ref={ref} className="ak-proj-card" style={{ position: "relative", borderRadius: 6, overflow: "hidden", border: "1px solid var(--line)", minHeight: "clamp(420px, 60vh, 560px)", display: "flex", alignItems: "center", boxShadow: "0 30px 70px -45px rgba(0,0,0,0.6)" }}>
         {/* animation clip background */}
         <video autoPlay loop muted playsInline poster={project.poster} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", filter: "saturate(0.8) brightness(0.55)", transform: !reduced && inView ? "scale(1.05)" : "scale(1)", transition: "transform 2s cubic-bezier(.2,.7,.2,1)" }}>
@@ -182,7 +182,7 @@ function ProjectShowcase({ project, index, reduced }) {
               <span style={{ width: 18, height: 1, background: "rgba(201,168,106,0.5)" }} />
               <span style={{ fontFamily: "'Space Mono', monospace", fontSize: 10.5, letterSpacing: "0.2em", textTransform: "uppercase", color: "rgba(237,232,224,0.72)" }}>{project.kind}</span>
             </div>
-            <h3 style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(2rem, 5vw, 3.2rem)", fontWeight: 400, lineHeight: 1.0, letterSpacing: "-0.02em", margin: "0 0 1rem 0", color: "#fff" }}>{project.name}</h3>
+            <h3 style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(1.7rem, 7vw, 3.2rem)", fontWeight: 400, lineHeight: 1.0, letterSpacing: "-0.02em", margin: "0 0 1rem 0", color: "#fff" }}>{project.name}</h3>
             <p style={{ fontFamily: "'Inter', sans-serif", fontSize: "clamp(13px, 1.4vw, 14.5px)", fontWeight: 300, lineHeight: 1.7, color: "rgba(237,232,224,0.82)", maxWidth: 440, margin: "0 0 1.4rem 0" }}>{project.description}</p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 14, marginBottom: "1.4rem" }}>
               {project.highlights.map((h, i) => (
@@ -358,10 +358,25 @@ export default function Portfolio() {
           .ak-about-grid { grid-template-columns: 1fr !important; }
           .ak-proj-grid { grid-template-columns: 1fr !important; }
           .ak-proj-text { order: 1 !important; }
-          .ak-proj-devices { order: 2 !important; flex-direction: column; gap: 1.5rem; }
+          .ak-proj-devices { order: 2 !important; flex-direction: column; gap: 1.5rem; align-items: center !important; }
           .ak-phone-wrap { position: static !important; left: auto !important; right: auto !important; bottom: auto !important; margin: 0 auto; }
           .ak-laptop-wrap { transform: none !important; }
           .ak-proj-card { min-height: 0 !important; }
+        }
+        @media (max-width: 600px) {
+          section { margin-top: clamp(2rem, 7vw, 4rem) !important; }
+          .ak-proj-grid { padding: clamp(1rem, 4vw, 1.5rem) !important; gap: 1rem !important; }
+          .ak-proj-devices { flex-direction: row !important; align-items: flex-end !important; justify-content: center !important; gap: 0.6rem !important; }
+          .ak-laptop-wrap { max-width: 56% !important; }
+          .ak-phone-wrap { margin: 0 !important; }
+          .ak-phone-frame { width: 90px !important; }
+          .ak-stats-grid { gap: 1.25rem 1.5rem !important; }
+          .ak-bio-grid { gap: 1.5rem !important; }
+        }
+        @media (max-width: 430px) {
+          .ak-laptop-wrap { max-width: 54% !important; }
+          .ak-phone-frame { width: 82px !important; }
+          .ak-contact-cta { width: 100%; justify-content: center; }
         }
       `}</style>
 
@@ -387,12 +402,12 @@ export default function Portfolio() {
       </nav>
 
       {/* HERO */}
-      <header id="top" style={{ position: "relative", zIndex: 2, padding: "clamp(4rem, 12vw, 9rem) clamp(1.25rem, 5vw, 4rem) clamp(3rem, 6vw, 5rem)", maxWidth: 1180, margin: "0 auto" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem", fontFamily: "'Space Mono', monospace", fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--muted)", marginBottom: "clamp(3rem, 8vw, 5rem)", opacity: heroIn ? 1 : 0, transition: "opacity 1.2s .2s" }}>
+      <header id="top" style={{ position: "relative", zIndex: 2, padding: "clamp(2.25rem, 11vw, 9rem) clamp(1.25rem, 5vw, 4rem) clamp(2rem, 6vw, 5rem)", maxWidth: 1180, margin: "0 auto" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "1rem", fontFamily: "'Space Mono', monospace", fontSize: 11, letterSpacing: "0.18em", textTransform: "uppercase", color: "var(--muted)", marginBottom: "clamp(1.5rem, 7vw, 5rem)", opacity: heroIn ? 1 : 0, transition: "opacity 1.2s .2s" }}>
           <span>Portfolio — 2026</span><span>Hyderabad, IN</span>
         </div>
 
-        <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(3.6rem, 15vw, 11rem)", fontWeight: 400, lineHeight: 0.92, letterSpacing: "-0.035em", margin: "0 0 2rem 0" }}>
+        <h1 style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(2rem, 10.5vw, 11rem)", fontWeight: 400, lineHeight: 0.92, letterSpacing: "-0.035em", margin: "0 0 2rem 0" }}>
           {heroLine("Akshath", false, 0)}
           {heroLine("Togari", true, 0.12)}
         </h1>
@@ -404,7 +419,6 @@ export default function Portfolio() {
 
       {/* ABOUT — photo + bio + contact details (moved to top) */}
       <section id="about" style={{ position: "relative", zIndex: 2, maxWidth: 1180, margin: "clamp(2rem, 6vw, 4rem) auto 0", padding: "0 clamp(1.25rem, 5vw, 4rem)" }}>
-        <Reveal style={{ marginBottom: "3rem" }}><Eyebrow>About</Eyebrow></Reveal>
         <div className="ak-bio-grid" style={{ display: "grid", gridTemplateColumns: "0.85fr 1.15fr", gap: "clamp(2rem, 5vw, 4.5rem)", alignItems: "center" }}>
           <Reveal>
             <div style={{ position: "relative" }}>
@@ -415,10 +429,10 @@ export default function Portfolio() {
             </div>
           </Reveal>
           <Reveal delay={0.12}>
-            <p style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(1.4rem, 3vw, 2.1rem)", fontWeight: 300, lineHeight: 1.4, letterSpacing: "-0.01em", margin: "0 0 2rem 0", color: "var(--text)" }}>{BIO}</p>
+            <p style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(1.15rem, 4vw, 2.1rem)", fontWeight: 300, lineHeight: 1.4, letterSpacing: "-0.01em", margin: "0 0 2rem 0", color: "var(--text)" }}>{BIO}</p>
 
             {/* contact details */}
-            <div style={{ borderTop: "1px solid var(--line)", paddingTop: "1.75rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(170px, 1fr))", gap: "1.25rem" }}>
+            <div style={{ borderTop: "1px solid var(--line)", paddingTop: "1.75rem", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: "1.25rem" }}>
               {contactItems.map(([label, value, href]) => (
                 <a key={label} href={href} target={href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer" style={{ textDecoration: "none", display: "block" }}>
                   <div style={{ fontFamily: "'Space Mono', monospace", fontSize: 11, letterSpacing: "0.14em", textTransform: "uppercase", color: "var(--accent)", marginBottom: 7 }}>{label}</div>
@@ -434,7 +448,7 @@ export default function Portfolio() {
       <section id="skills" style={{ position: "relative", zIndex: 2, maxWidth: 1180, margin: "clamp(4rem, 10vw, 8rem) auto 0", padding: "0 clamp(1.25rem, 5vw, 4rem)" }}>
         <Reveal style={{ marginBottom: "2.5rem" }}>
           <Eyebrow>Skills</Eyebrow>
-          <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(2rem, 5.5vw, 3.5rem)", fontWeight: 400, letterSpacing: "-0.03em", margin: "1.2rem 0 0 0" }}>What I use.</h2>
+          <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(1.75rem, 6vw, 3.5rem)", fontWeight: 400, letterSpacing: "-0.03em", margin: "1.2rem 0 0 0" }}>What I use.</h2>
         </Reveal>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(230px, 1fr))", gap: "1px", background: "var(--line)", border: "1px solid var(--line)", borderRadius: 4, overflow: "hidden" }}>
           {Object.entries(SKILLS).map(([cat, items], i) => (
@@ -450,7 +464,7 @@ export default function Portfolio() {
       <section id="work" style={{ position: "relative", zIndex: 2, maxWidth: 1180, margin: "clamp(4rem, 10vw, 8rem) auto 0", padding: "0 clamp(1.25rem, 5vw, 4rem)" }}>
         <Reveal style={{ marginBottom: "2.5rem" }}>
           <Eyebrow>Projects</Eyebrow>
-          <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(2rem, 5.5vw, 3.5rem)", fontWeight: 400, letterSpacing: "-0.03em", margin: "1.2rem 0 0 0" }}>What I&apos;ve built.</h2>
+          <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(1.75rem, 6vw, 3.5rem)", fontWeight: 400, letterSpacing: "-0.03em", margin: "1.2rem 0 0 0" }}>What I&apos;ve built.</h2>
         </Reveal>
         {PROJECTS.map((p, i) => (<ProjectShowcase key={p.name} project={p} index={i} reduced={reduced} />))}
       </section>
@@ -459,9 +473,9 @@ export default function Portfolio() {
       <section style={{ position: "relative", zIndex: 2, maxWidth: 1180, margin: "clamp(4rem, 10vw, 8rem) auto 0", padding: "0 clamp(1.25rem, 5vw, 4rem)" }}>
         <Reveal style={{ marginBottom: "2.5rem" }}>
           <Eyebrow>By the numbers</Eyebrow>
-          <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(2rem, 5.5vw, 3.5rem)", fontWeight: 400, letterSpacing: "-0.03em", margin: "1.2rem 0 0 0" }}>A few results.</h2>
+          <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(1.75rem, 6vw, 3.5rem)", fontWeight: 400, letterSpacing: "-0.03em", margin: "1.2rem 0 0 0" }}>A few results.</h2>
         </Reveal>
-        <div ref={statsRef} style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: "1.5rem 2.5rem", borderTop: "1px solid var(--line)", paddingTop: "2rem" }}>
+        <div ref={statsRef} className="ak-stats-grid" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))", gap: "1.5rem 2.5rem", borderTop: "1px solid var(--line)", paddingTop: "2rem" }}>
           {STATS.map((s, i) => (<Stat key={i} {...s} inView={statsIn} reduced={reduced} />))}
         </div>
       </section>
@@ -486,14 +500,14 @@ export default function Portfolio() {
       </section>
 
       {/* CONTACT — footer */}
-      <section id="contact" style={{ position: "relative", zIndex: 2, maxWidth: 1180, margin: "clamp(5rem, 12vw, 9rem) auto 0", padding: "clamp(3.5rem,8vw,6rem) clamp(1.25rem, 5vw, 4rem) clamp(2.5rem,5vw,4rem)", borderTop: "1px solid var(--line)" }}>
+      <section id="contact" style={{ position: "relative", zIndex: 2, maxWidth: 1180, margin: "clamp(5rem, 12vw, 9rem) auto 0", padding: "clamp(2.5rem,8vw,6rem) clamp(1.25rem, 5vw, 4rem) clamp(2.5rem,5vw,4rem)", borderTop: "1px solid var(--line)" }}>
         <Reveal>
           <Eyebrow>Contact</Eyebrow>
-          <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(2.4rem, 6vw, 4rem)", fontWeight: 400, letterSpacing: "-0.03em", lineHeight: 1.0, margin: "1.5rem 0 2.5rem 0" }}>Get in <span style={{ fontStyle: "italic", fontWeight: 300, color: "var(--accent)" }}>touch.</span></h2>
-          <a href={`mailto:${CONTACT.email}`} style={{ display: "inline-flex", alignItems: "center", gap: 14, fontFamily: "'Space Mono', monospace", fontSize: "clamp(13px, 2.2vw, 16px)", letterSpacing: "0.04em", color: "var(--accent-ink)", background: "var(--accent)", padding: "1.1rem 1.9rem", borderRadius: 3, textDecoration: "none", transition: "transform .3s" }}
+          <h2 style={{ fontFamily: "'Fraunces', serif", fontSize: "clamp(2rem, 8vw, 4rem)", fontWeight: 400, letterSpacing: "-0.03em", lineHeight: 1.0, margin: "1.5rem 0 2.5rem 0" }}>Get in <span style={{ fontStyle: "italic", fontWeight: 300, color: "var(--accent)" }}>touch.</span></h2>
+          <a href={`mailto:${CONTACT.email}`} className="ak-contact-cta" style={{ display: "inline-flex", alignItems: "center", gap: 14, fontFamily: "'Space Mono', monospace", fontSize: "clamp(12px, 2.2vw, 16px)", letterSpacing: "0.04em", color: "var(--accent-ink)", background: "var(--accent)", padding: "1.1rem 1.6rem", borderRadius: 3, textDecoration: "none", transition: "transform .3s", maxWidth: "100%", boxSizing: "border-box", wordBreak: "break-word" }}
             onMouseEnter={(e) => (e.currentTarget.style.transform = "translateY(-2px)")} onMouseLeave={(e) => (e.currentTarget.style.transform = "translateY(0)")}>{CONTACT.email} <span>↗</span></a>
         </Reveal>
-        <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "1.5rem", marginTop: "clamp(3.5rem, 8vw, 5.5rem)", paddingTop: "1.75rem", borderTop: "1px solid var(--line)", fontFamily: "'Space Mono', monospace", fontSize: 12, letterSpacing: "0.04em", color: "var(--muted)" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: "1.5rem", marginTop: "clamp(2rem, 8vw, 5.5rem)", paddingTop: "1.75rem", borderTop: "1px solid var(--line)", fontFamily: "'Space Mono', monospace", fontSize: 12, letterSpacing: "0.04em", color: "var(--muted)" }}>
           <span>© 2026 Akshath Togari</span>
           <div style={{ display: "flex", gap: "1.75rem" }}>
             <a href={CONTACT.github} target="_blank" rel="noopener noreferrer" style={{ color: "var(--muted)", textDecoration: "none" }}>github</a>
